@@ -37,6 +37,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NsqDockerCluster {
+    public void restartNetworkFor(NsqdNode nsqdNode) {
+        disconnectNetworkFor(nsqdNode);
+        reconnectNetworkFor(nsqdNode);
+    }
+
     public static class ContainerConfig {
         public String image;
         public String nameFormat;
@@ -92,7 +97,7 @@ public class NsqDockerCluster {
     private static final ContainerConfig DEFAULT_NSQD_CONFIG = new ContainerConfig(
         "nsqio/nsq:v1.2.1",
         "nsqd-cluster-%d-%s",
-        "/nsqd --lookupd-tcp-address=%s --broadcast-address=%s --broadcast-tcp-port=%s --broadcast-http-port=%s --msg-timeout=4s");
+        "/nsqd --lookupd-tcp-address=%s --broadcast-address=%s --broadcast-tcp-port=%s --broadcast-http-port=%s --msg-timeout=3s");
 
     private static final ContainerConfig DEFAULT_LOOKUP_CONFIG = new ContainerConfig(
         "nsqio/nsq:v1.2.1",
